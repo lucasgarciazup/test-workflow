@@ -27,7 +27,7 @@ jobs:
         shell: bash
       
       - name: Remove Versioning 
-        run: touch versions.json
+        run: touch versions2.json
 
       # - name: Create Version
       #   run: npm run docusaurus docs:version $VERSION
