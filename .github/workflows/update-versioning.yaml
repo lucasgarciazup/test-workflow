@@ -63,3 +63,4 @@ jobs:
       - run: |
           git checkout "auto-update-version"
           git pull origin release-v1.0.0 --rebase
+          git push origin release-v1.0.0
