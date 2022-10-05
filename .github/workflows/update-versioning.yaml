@@ -34,7 +34,7 @@ jobs:
         uses: rlespinasse/git-commit-data-action@v1
         
       - run: |
-            date > generated.txt
+            touch versioned.txt
             git config user.name ${{ env.GIT_COMMIT_COMMITTER_NAME }}
             git config user.email ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}
             git add .
