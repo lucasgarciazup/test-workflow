@@ -30,11 +30,13 @@ jobs:
         uses: rlespinasse/git-commit-data-action@v1
 
       - run: |
+          git config user.name ${{ env.GIT_COMMIT_AUTHOR_NAME }}
+          git config user.email ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}
           git checkout -b "auto-update-version"
           touch generate-version.json
           git add .
-          git status
           git commit -m "generate version"
+          git status
           git push origin auto-update-version
 
       - name: Opening pull request
