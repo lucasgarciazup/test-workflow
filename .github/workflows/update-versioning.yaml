@@ -21,14 +21,14 @@ jobs:
       - name: Create release branch
         uses: peterjgrainger/action-create-branch@v2.0.1
         env:
-          VERSION: ${{ steps.version.outputs.release_tag }}
+          VERSION: ${{ steps.version.outputs.branch_version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           branch: "auto-update-release-${{ env.VERSION }}"
 
       - uses: actions/checkout@v3
         env:
-          VERSION: ${{ steps.version.outputs.release_tag }}
+          VERSION: ${{ steps.version.outputs.branch_version }}
         with:
           ref: auto-update-release-${{ env.VERSION }}
         
@@ -44,7 +44,7 @@ jobs:
         id: pull
         uses: tretuna/sync-branches@1.4.0
         env:
-          VERSION: ${{ steps.version.outputs.release_tag }}
+          VERSION: ${{ steps.version.outputs.branch_version }}
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: "auto-update-release-${{ env.VERSION }}"
