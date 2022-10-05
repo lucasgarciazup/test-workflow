@@ -44,6 +44,7 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
           branch: qa
+          base: release-v1.0.0
           delete-branch: true
           add-paths: |
             *
