@@ -25,13 +25,18 @@ jobs:
         uses: rlespinasse/git-commit-data-action@v1
         
       - run: |
-            touch versioned2.txt
+            rm -rf ${{ env.VERSION }}.txt
+            touch ${{ env.VERSION }}.txt
             git config user.name "${{ env.GIT_COMMIT_COMMITTER_NAME }}"
             git config user.email "${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
             git add .
             git commit -m "Generated Version"
             git status
             git push
+        env:
+          VERSION: ${{ steps.version.outputs.branch_version }}
+        with:
+          ref: auto-update-release-${{ env.VERSION }}
 
       - name: Opening pull request
         id: pull
