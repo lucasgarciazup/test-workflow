@@ -43,8 +43,8 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
-          branch: release-v1.0.0
           delete-branch: true
+          branch: update-release-v1.0.0
           add-paths: |
             *
           title: '[BOT UPDATE] Update Version ${{ steps.version.outputs.branch_version }}'
