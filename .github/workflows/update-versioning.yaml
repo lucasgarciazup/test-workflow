@@ -43,8 +43,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
-          branch: update-release-${{ steps.version.outputs.branch_version }}
-          base: qa
+          branch: qa
           delete-branch: true
           add-paths: |
             *
