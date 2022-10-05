@@ -15,8 +15,6 @@ jobs:
         run: echo "::set-output name=branch_version::$(echo $GITHUB_REF | sed 's/refs\/heads\/release-//g' )"
         shell: bash
       
-      - name: Expose git commit data
-        uses: rlespinasse/git-commit-data-action@v1
 
       - name: Create release branch
         uses: peterjgrainger/action-create-branch@v2.0.1
@@ -32,12 +30,15 @@ jobs:
         with:
           ref: auto-update-release-${{ env.VERSION }}
         
+      - name: Expose git commit data
+        uses: rlespinasse/git-commit-data-action@v1
+        
       - run: |
             date > generated.txt
-            git config user.name github-actions
-            git config user.email github-actions@github.com
+            git config user.name ${{ env.GIT_COMMIT_COMMITTER_NAME }}
+            git config user.email ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}
             git add .
-            git commit -m "generated"
+            git commit -m "Generated Version"
             git push
 
       - name: Opening pull request

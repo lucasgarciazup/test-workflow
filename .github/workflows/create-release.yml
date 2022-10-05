@@ -1,0 +1,27 @@
+name: Prepare Release Branch
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+ 
+      - name: Get release tag
+        id: version
+        run: echo "::set-output name=release_tag::${GITHUB_REF#refs/*/}" 
+        shell: bash
+
+      - name: Create release branch
+        uses: peterjgrainger/action-create-branch@v2.0.1
+        env:
+          VERSION: ${{ steps.version.outputs.release_tag }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: "release-${{ env.VERSION }}"
+
+
