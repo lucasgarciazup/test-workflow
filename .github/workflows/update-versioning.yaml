@@ -6,21 +6,10 @@ on:
       - 'release-v*'
  
 jobs:
-  deploy:
+  build:
     name: Update Versioning Branch
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      # - name: Setup Node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '18'
-
-      # - name: Install Librarys
-      #   run: npm ci
-
-
       - name: Get version from branch name
         id: version
         run: echo "::set-output name=branch_version::$(echo $GITHUB_REF | sed 's/refs\/heads\/release-//g' )"
@@ -29,22 +18,36 @@ jobs:
       - name: Expose git commit data
         uses: rlespinasse/git-commit-data-action@v1
 
+      - name: Create release branch
+        uses: peterjgrainger/action-create-branch@v2.0.1
+        env:
+          VERSION: ${{ steps.version.outputs.release_tag }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: "auto-update-release-${{ env.VERSION }}"
+
+      - uses: actions/checkout@v3
+        env:
+          VERSION: ${{ steps.version.outputs.release_tag }}
+        with:
+          ref: auto-update-release-${{ env.VERSION }}
+        
       - run: |
-          git config user.name ${{ env.GIT_COMMIT_AUTHOR_NAME }}
-          git config user.email ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}
-          git checkout -b "auto-update-version"
-          touch generate-version.json
-          git add .
-          git commit -m "generate version"
-          git status
-          git push origin auto-update-version
+            date > generated.txt
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git add .
+            git commit -m "generated"
+            git push
 
       - name: Opening pull request
         id: pull
         uses: tretuna/sync-branches@1.4.0
+        env:
+          VERSION: ${{ steps.version.outputs.release_tag }}
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: "auto-update-version"
+          FROM_BRANCH: "auto-update-release-${{ env.VERSION }}"
           TO_BRANCH: "qa"
 
       # - name: Create Version
