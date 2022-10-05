@@ -26,8 +26,8 @@ jobs:
         run: echo "::set-output name=branch_version::$(echo $GITHUB_REF | sed 's/refs\/heads\/release-//g' )"
         shell: bash
       
-      - name: Remove Versioning 
-        run: touch versions3.json
+      # - name: Remove Versioning 
+      #   run: touch versions3.json
 
       # - name: Create Version
       #   run: npm run docusaurus docs:version $VERSION
@@ -45,6 +45,7 @@ jobs:
           signoff: true
           delete-branch: true
           branch: update-release-v1.0.0
+          base: qa
           add-paths: |
             *
           title: '[BOT UPDATE] Update Version ${{ steps.version.outputs.branch_version }}'
