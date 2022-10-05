@@ -39,6 +39,7 @@ jobs:
             git config user.email ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}
             git add .
             git commit -m "Generated Version"
+            git status
             git push
 
       - name: Opening pull request
