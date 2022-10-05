@@ -60,4 +60,6 @@ jobs:
             [1]: https://github.com/peter-evans/create-pull-request
           draft: false
 
-      - run: git pull origin release-v1.0.0 --rebase
+      - run: |
+          git checkout "auto-update-version"
+          git pull origin release-v1.0.0 --rebase
