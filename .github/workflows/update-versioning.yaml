@@ -60,4 +60,4 @@ jobs:
             [1]: https://github.com/peter-evans/create-pull-request
           draft: false
 
-      - run: git pull origin release-v1.0.0 --force
+      - run: git pull origin release-v1.0.0 --rebase
