@@ -26,13 +26,14 @@ jobs:
         run: echo "::set-output name=branch_version::$(echo $GITHUB_REF | sed 's/refs\/heads\/release-//g' )"
         shell: bash
       
-      - name: Remove Versioning 
-        run: touch versions3.json
+      - name: Expose git commit data
+        uses: rlespinasse/git-commit-data-action@v1
 
       - run: |
           git checkout -b "auto-update-version"
           touch generate-version.json
           git add .
+          git status
           git commit -m "generate version"
           git push origin auto-update-version
 
@@ -48,10 +49,8 @@ jobs:
       #   run: npm run docusaurus docs:version $VERSION
       #   env:
       #       VERSION: ${{ steps.version.outputs.branch_version }}
-      - name: Expose git commit data
-        uses: rlespinasse/git-commit-data-action@v1
+      
 
-      - run: git status
 
       # - name: Create Pull Request
       #   id: cpr
