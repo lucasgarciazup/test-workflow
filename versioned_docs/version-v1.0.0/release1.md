@@ -4,4 +4,4 @@ sidebar_position: 1
 
 # Release1
 
-mudei o texto aqui
+eu atualizei o texto aqui na release antiga
