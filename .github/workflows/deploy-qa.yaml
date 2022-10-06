@@ -26,9 +26,11 @@ jobs:
         shell: bash
 
       - name: Remove Versioning 
+        continue-on-error: true
         run: npm run delete-version ${{ env.VERSION }}
         env:
             VERSION: ${{ steps.version.outputs.branch_version }}
+        
 
       - name: Create Version
         run: npm run create-version $VERSION
