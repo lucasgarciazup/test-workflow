@@ -1,0 +1,44 @@
+name: Test deployment
+
+on:
+  push:
+    branches:
+      - release*
+    # Review gh actions docs if you want to further define triggers, paths, etc
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+
+jobs:
+  test-deploy:
+    name: Test deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get version from branch name
+        id: version
+        run: echo "::set-output name=branch_version::$(echo $GITHUB_REF | sed 's/refs\/heads\/release-//g' )"
+        shell: bash
+
+      - name: Remove Versioning 
+        run: npm run delete-version ${{ env.VERSION }}
+        env:
+            VERSION: ${{ steps.version.outputs.branch_version }}
+
+      - name: Create Version
+        run: npm run create-version $VERSION
+        env:
+            VERSION: ${{ steps.version.outputs.branch_version }}
+      
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Generated update version'
+          pull: '--rebase'
+
+      # - name: Test build website
+      #   run: npm run build
