@@ -41,14 +41,6 @@ jobs:
           # Optional. Commit message for the created commit.
           # Defaults to "Apply automatic changes"
           commit_message: Update Versions
-          # Optional. Options used by `git-commit`.
-          # See https://git-scm.com/docs/git-commit#_options
-          commit_options: '--no-verify --signoff'
-
-          # Optional. Options used by `git-add`.
-          # See https://git-scm.com/docs/git-add#_options
-          add_options: '-u'
-
           # Optional. Options used by `git-push`.
           # See https://git-scm.com/docs/git-push#_options
           push_options: '--force'
