@@ -40,7 +40,7 @@ jobs:
         with:
           # Optional. Commit message for the created commit.
           # Defaults to "Apply automatic changes"
-          commit_message: Update Versions
+          commit_message: '[Update] Version 🚀'
           # Optional. Options used by `git-push`.
           # See https://git-scm.com/docs/git-push#_options
           push_options: '--force'
