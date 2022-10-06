@@ -1,0 +1,18 @@
+name: Upload to QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'qa'
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/build-deploy-app.yaml
+    with:
+      env: 'qa'
+      runner: orange-staging-qa
+      dist-id: EBJ4EZ2SNFGL3
+      bucket-region: us-east-1
+      bucket-name: stackspot-internal-docs
+

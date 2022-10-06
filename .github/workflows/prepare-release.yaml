@@ -1,7 +1,7 @@
-name: Test deployment
+name: Prepare Release
 
 on:
-  push:
+  pull_request:
     branches:
       - release*
     # Review gh actions docs if you want to further define triggers, paths, etc
@@ -9,7 +9,7 @@ on:
 
 jobs:
   prepare:
-    name: Test deployment
+    name: Prepare Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,10 +36,9 @@ jobs:
         env:
             VERSION: ${{ steps.version.outputs.branch_version }}
       
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Commit versions files
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          # Optional. Commit message for the created commit.
-          # Defaults to "Apply automatic changes"
           commit_message: '[Update] Version ${{ env.VERSION }} 🚀'
           push_options: '--force'
         env:
@@ -53,6 +52,3 @@ jobs:
           TO_BRANCH: "qa"
         env:
           BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
-        
-      # - name: Test build website
-      #   run: npm run build

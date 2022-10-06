@@ -1,0 +1,17 @@
+name: Upload to PROD
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/build-deploy-app.yaml
+    with:
+      env: 'production'
+      runner: stackspot-stacks-prd
+      dist-id: E3VV0DJHA4X0Y4
+      bucket-region: sa-east-1
+      bucket-name: stackspot-internal-docs-prd

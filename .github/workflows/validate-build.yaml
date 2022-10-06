@@ -1,17 +1,15 @@
 name: Validate Build
 
 on:
-  pull_request:
-    branches:
-      - master
-      - main
-      - release*
+  push:
+    branches: 
+      - '*'
     # Review gh actions docs if you want to further define triggers, paths, etc
     # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 jobs:
   test-deploy:
-    name: Test deployment
+    name: Validate Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
