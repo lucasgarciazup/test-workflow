@@ -8,7 +8,7 @@ on:
     # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 jobs:
-  test-deploy:
+  prepare:
     name: Test deployment
     runs-on: ubuntu-latest
     steps:
@@ -40,10 +40,17 @@ jobs:
         with:
           # Optional. Commit message for the created commit.
           # Defaults to "Apply automatic changes"
-          commit_message: '[Update] Version 🚀'
-          # Optional. Options used by `git-push`.
-          # See https://git-scm.com/docs/git-push#_options
+          commit_message: '[Update] Version ${{ env.VERSION }} 🚀'
           push_options: '--force'
+        env:
+            VERSION: ${{ steps.version.outputs.branch_version }}
 
+      - name: Sync branches
+        uses: TreTuna/sync-branches@1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: $GITHUB_REF
+          TO_BRANCH: "qa"
+        
       # - name: Test build website
       #   run: npm run build
